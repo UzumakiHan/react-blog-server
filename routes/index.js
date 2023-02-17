@@ -39,15 +39,15 @@ router.post('/reqregister', (req, res) => {
   const sqlStr = "SELECT * FROM user WHERE username = '" + username + "'";
   connection.query(sqlStr, (error, results, fields) => {
     if (results[0]) {//用户已经存在
-      res.json({ err_code: 0, message: "用户名已经存在" })
+      res.json({ code: 50026, message: "用户名已经存在" })
     } else {
       const addSql = "INSERT INTO user (username, password,status) VALUES (?, ?,?)";
       const addSqlParams = [username, password, status];
       connection.query(addSql, addSqlParams, (error, results, fields) => {
         if (error) {
-          res.json({ err_code: 0, message: "注册失败" })
+          res.json({ code: 50027, message: "注册失败" })
         } else {
-          res.json({ success_code: 200, message: "注册成功", userinfo: results[0] })
+          res.json({ code: 0, message: "注册成功" })
         }
       })
     }
